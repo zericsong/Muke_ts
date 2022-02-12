@@ -2,6 +2,8 @@
 import { ref, onMounted, onUnmounted, watch} from 'vue'
 import useMousePosition from '../hooks/useMousePosition'
 import useURLLoader from '../hooks/useURLLoader'
+import DogShow from '../components/DogShow.vue'
+import AsyncShow from '../components/AsyncShow.vue'
 
 defineProps<{ msg: string }>()
 
@@ -26,9 +28,17 @@ watch(result,() => {
   }
 })
 
+
+
 </script>
 
 <template>
+  <Suspense>
+    <dog-show />
+  </Suspense>
+  <Suspense>
+    <async-show />
+  </Suspense>
   <h1>X:{{x}} Y:{{y}}</h1>
   <h1 v-if="loading">Loading</h1>
   <img v-if="loaded" :src="result[0].url">
