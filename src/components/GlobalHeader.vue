@@ -1,18 +1,36 @@
+<template>
+  <nav class="navbar navbar-dark bg-primary justify-content-between mb-4 px-4">
+    <router-link class="navbar-brand" to="/">者也专栏</router-link>
+    <ul v-if="!user.isLogin" class="list-inline mb-0">
+      <li class="list-inline-item"><router-link to="/login" class="btn btn-outline-light my-2">登陆</router-link></li>
+      <li class="list-inline-item"><router-link to="/login" class="btn btn-outline-light my-2">注册</router-link></li>
+    </ul>
+    <ul v-else class="list-inline mb-0">
+      <li class="list-inline-item">
+        <dropdown :title="`你好 ${user.name}`">
+          <dropdown-item><a href="#" class="dropdown-item">新建文章</a></dropdown-item>
+          <dropdown-item disabled><a href="#" class="dropdown-item">编辑资料</a></dropdown-item>
+          <dropdown-item><a href="#" class="dropdown-item">退出登陆</a></dropdown-item>
+        </dropdown>
+      </li>
+    </ul>
+  </nav>
+</template>
+
 <script lang="ts">
-import {defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue'
 import Dropdown from './Dropdown.vue'
 import DropdownItem from './DropdownItem.vue'
-interface UserProps {
-  isLogin: boolean,
-  name?: string,
-  id?: number
+export interface UserProps {
+  isLogin: boolean;
+  name?: string;
+  id?: number;
 }
-
 export default defineComponent({
   name: 'GlobalHeader',
-  components:{
+  components: {
     Dropdown,
-    DropdownItem,
+    DropdownItem
   },
   props: {
     user: {
@@ -22,26 +40,3 @@ export default defineComponent({
   }
 })
 </script>
-
-
-<template>
-  <nav class="navbar navbar-dark bg-primary justify-content-between mb-4">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">之乎者也</a>
-      <ul v-if="!user.isLogin" class="list-inline mb-0">
-        <li class="list-inline-item"><a href="#" class="btn btn-outline-light my-2">登录</a></li>
-        <li class="list-inline-item"><a href="#" class="btn btn-outline-light my-2">注册</a></li>
-      </ul>
-      <ul v-else class="list-inline mb-0">
-        <li class="list-inline-item">
-  <!--         <a href="#" class="btn btn-outline-light my-2">你好，{{user.name}}</a>-->
-        <dropdown :title="`你好，${user.name}`">
-          <dropdown-item><a href="#" class="dropdown-item">新建文章</a></dropdown-item>
-          <dropdown-item disabled><a href="#" class="dropdown-item">编辑资料</a></dropdown-item>
-          <dropdown-item><a href="#" class="dropdown-item">退出登录</a></dropdown-item>
-        </dropdown>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</template>
