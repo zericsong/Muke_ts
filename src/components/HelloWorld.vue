@@ -28,8 +28,6 @@ watch(result,() => {
   }
 })
 
-
-
 </script>
 
 <template>
