@@ -1,4 +1,4 @@
-import VueRouter from 'vue-router'
+import { createRouter,createWebHashHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 
@@ -11,15 +11,11 @@ const routes = [
     name: 'login',
     component: Login
   },
-  { path: '/column/:id', 
-    name: 'column',
-    component: columnDetail
-  },
 ]
 
 
-const router = VueRouter.createRouter({
-  history: VueRouter.createWebHashHistory(),
+const router = createRouter({
+  history: createWebHashHistory(),
   routes, // `routes: routes` 的缩写
 })
 

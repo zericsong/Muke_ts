@@ -30,7 +30,7 @@ export default defineComponent({
   name: 'ColumnList',
   props: {
     list: {
-      type: Array as PropType<ColumnProps[]>,
+      type: Array as PropType<ColumnProps[]>, //把构造函数断言成一个类型
       required: true
     }
   },

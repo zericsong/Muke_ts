@@ -5,7 +5,7 @@
     </a>
 
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" :style="{display:'block'}" v-if="isOpen">
-      <slot></slot>
+    <slot></slot>
     </ul>
   </div>
 </template>

@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, onUnmounted } from 'vue'
 type ValidateFunc = () => boolean
-export const emitter = mitt()
+// export const emitter = mitt()
 export default defineComponent({
   emits: ['form-submit'],
   setup(props, context) {

@@ -31,6 +31,7 @@ watch(result,() => {
 </script>
 
 <template>
+<div>
   <Suspense>
     <dog-show />
   </Suspense>
@@ -63,6 +64,7 @@ watch(result,() => {
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
   </p>
+</div>
 </template>
 
 <style scoped>
