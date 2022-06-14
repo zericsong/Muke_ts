@@ -1,6 +1,7 @@
-import { createRouter,createWebHashHistory } from 'vue-router'
+import { createRouter,createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
+import ColumnDetail from '@/views/ColumnDetail.vue'
 
 const routes = [
   { path: '/', 
@@ -11,12 +12,16 @@ const routes = [
     name: 'login',
     component: Login
   },
+  { path: '/column/:id', 
+    name: 'column',
+    component: ColumnDetail
+  },
 ]
 
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes, // `routes: routes` 的缩写
+  history: createWebHistory(),
+  routes, // routes: routes 的缩写
 })
 
 

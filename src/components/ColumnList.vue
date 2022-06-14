@@ -7,9 +7,7 @@
           <h5 class="card-title">{{column.title}}</h5>
           <p class="card-text text-left">{{column.description}}</p>
           <router-link :to="`/column/${column.id}`" class="btn btn-outline-primary">进入专栏</router-link>
-          <!-- to后面传递route写法：
-          <router-link :to="{name:'column',params: {id: column.id}}" class="btn btn-outline-primary">进入专栏</router-link>
-          -->
+          <!--<router-link :to="{name: 'column',params: {id:column.id}}" class="btn btn-outline-primary">进入专栏</router-link>-->
         </div>
       </div>
     </div>
@@ -18,7 +16,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from 'vue'
-import imgUrl from '../assets/IMG_8393.jpg'
 
 export interface ColumnProps {
   id: number;
@@ -30,7 +27,7 @@ export default defineComponent({
   name: 'ColumnList',
   props: {
     list: {
-      type: Array as PropType<ColumnProps[]>, //把构造函数断言成一个类型
+      type: Array as PropType<ColumnProps[]>,
       required: true
     }
   },
@@ -38,7 +35,7 @@ export default defineComponent({
     const columnList = computed(() => {
       return props.list.map(column => {
         if (!column.avatar) {
-          column.avatar = imgUrl
+          column.avatar = '../assets/IMG_8393.jpg'
         }
         return column
       })
