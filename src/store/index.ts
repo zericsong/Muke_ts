@@ -1,22 +1,53 @@
 import { defineStore } from 'pinia'
+import { testData, testPosts, ColumnProps, PostProps } from '@/testData'
+import { PropType } from "vue";
+import { createPinia } from "pinia";
 
-export const useStore = defineStore('main', {
+const pinia = createPinia();
+
+export default pinia;
+
+
+interface UserProps {
+  isLogin: boolean;
+  name?: string;
+  id?: number;
+  columnId?: number;
+}
+
+export interface GlobalDataProps {
+  columns: ColumnProps[];
+  posts: PostProps[];
+  user: {
+    isLogin: boolean;
+    name?: string;
+    id?: number;
+    columnId?: 1;
+  };
+}
+
+
+export const useStore = defineStore('mainStore', {
   // arrow function recommended for full type inference
-  state: () => ({   //()立即返回函数，省略了return{...}
+  state: () : GlobalDataProps => ({   //()立即返回函数，省略了return{...}
     // all these properties will have their type inferred automatically
-    count: 1,
+    columns: testData,
+    posts: testPosts,
+    //user: { isLogin: false },
+    user: { isLogin: true, name: 'viking', columnId: 1 }
   }),
   getters: {
-    // automatically infers the return type as a number
-    add: (state) => ++state.count ,
-    doubleCount: (state) => state.count * 2,
+    biggerColumnLen: (state) => state.columns.filter(c => c.id > 2).length,
+    getColumnById: (state) => (id: number) => state.columns.find(c => c.id === id),
+    getPostsByCid: (state) => (cid: number) => state.posts.filter(post => post.columnId === cid)
   },
   actions: {
-    increment() {
-      this.count++
+    login() {
+      this.user = { isLogin: true , name: "viking"}
     },
-    randomizeCounter() {
-      this.count = Math.round(100 * Math.random())
-    },
+    createPost(newPost: PostProps) {
+      this.posts.push(newPost)
+    }
   },
 })
+

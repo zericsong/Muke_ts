@@ -15,10 +15,11 @@
 
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent,computed } from "vue";
 import { useRoute } from "vue-router";
 import { testData, testPosts } from "@/testData";
 import PostList from '@/components/PostList.vue'
+import { GlobalDataProps, useStore } from "@/store";
 
 export default defineComponent ({
   components: {
@@ -26,9 +27,10 @@ export default defineComponent ({
   },
   setup(){
     const route = useRoute()
+    const store = useStore()
     const currentId = +route.params.id //将String转换成Number
-    const column = testData.find(c => c.id === currentId)
-    const list = testPosts.filter(post => post.columnId === currentId)
+    const column = computed(() => store.getColumnById(currentId))
+    const list = computed(() => store.getPostsByCid(currentId))
     return {
       column,
       list

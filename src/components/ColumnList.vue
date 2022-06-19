@@ -35,7 +35,7 @@ export default defineComponent({
     const columnList = computed(() => {
       return props.list.map(column => {
         if (!column.avatar) {
-          column.avatar = '../assets/IMG_8393.jpg'
+          column.avatar = '/IMG_8393.jpg'
         }
         return column
       })

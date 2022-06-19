@@ -4,6 +4,7 @@ export interface ColumnProps {
   avatar?: string;
   description: string;
 }
+
 export interface PostProps {
   id: number;
   title: string;

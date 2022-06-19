@@ -18,16 +18,21 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { testData } from '../testData'
 import ColumnList from '../components/ColumnList.vue'
+import { useStore } from '@/store'
+import { computed } from '@vue/reactivity'
+
+
 export default defineComponent({
   name: 'Home',
   components: {
     ColumnList
   },
   setup() {
+    const store = useStore()
+    const list = computed(() => store.columns)
     return {
-      list: testData
+      list: list,
     }
   }
 })
