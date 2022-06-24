@@ -3,12 +3,11 @@ import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import ColumnDetail from '@/views/ColumnDetail.vue'
 import CreatePost from '@/views/CreatePost.vue'
-
 import pinia from '@/store'
-
 import {useStore} from '../store'
 
-const store = useStore(pinia)//最紧要的是添加参数pinia
+
+const store = useStore(pinia)  //最紧要的是添加参数pinia
 
 
 const routes = [
@@ -36,7 +35,6 @@ const router = createRouter({
   history: createWebHistory(),
   routes, // routes: routes 的缩写
 })
-
 
 
 
