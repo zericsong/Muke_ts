@@ -1,6 +1,5 @@
 import { defineStore, createPinia } from 'pinia'
 import axios from 'axios';
-import { testData, testPosts } from '@/testData'
 
 
 const pinia = createPinia();
@@ -44,14 +43,13 @@ export const useStore = defineStore('mainStore', {
   state: () : GlobalDataProps => ({   //()立即返回函数，省略了return{...}
     // all these properties will have their type inferred automatically
     columns: [],
-    posts: testPosts,
+    posts: [],
     //user: { isLogin: false },
     user: { isLogin: true, name: 'viking', columnId: 1 }
   }),
   getters: {
-    biggerColumnLen: (state) => state.columns.filter(c => c._id > 2).length,
-    getColumnById: (state) => (id: number) => state.columns.find(c => c._id === id),
-    getPostsByCid: (state) => (cid: number) => state.posts.filter(post => post.columnId === cid)
+    getColumnById: (state) => (id: string) => state.columns.find(c => c._id === id),
+    getPostsByCid: (state) => (cid: string) => state.posts.filter(post => post.column === cid),
   },
   actions: {
     login() {
@@ -60,10 +58,20 @@ export const useStore = defineStore('mainStore', {
     createPost(newPost: PostProps) {
       this.posts.push(newPost)
     },
-    fetchColumns() {
-      axios.get('/columns')
-        .then(resp => (this.columns.push(...resp.data.data.list)) )
+    async fetchColumns() {
+      await axios.get(`/columns?currentPage=${currentPage}&pageSize=${pageSize}`).then(resp => (this.columns.push(...resp.data.data.list)) )
       console.log(this.columns)
+    },
+    fetchColumn() {
+      axios.get(`/columns/{id}`).then(resp => {
+        this.columns = [resp.data]
+        console.log(this.columns)
+      })
+    },
+    fetchPosts() {
+      axios.get(`/columns/{id}/posts`).then(resp => {
+        this.posts.push(...resp.data.data.list)
+      })
     }
   },
 })
