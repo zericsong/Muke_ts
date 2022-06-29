@@ -1,9 +1,7 @@
 import { defineStore, createPinia } from 'pinia'
 import axios from 'axios';
 
-
 const pinia = createPinia();
-
 export default pinia;
 
 interface UserProps {
@@ -48,8 +46,12 @@ export const useStore = defineStore('mainStore', {
     user: { isLogin: true, name: 'viking', columnId: 1 }
   }),
   getters: {
-    getColumnById: (state) => (id: string) => state.columns.find(c => c._id === id),
-    getPostsByCid: (state) => (cid: string) => state.posts.filter(post => post.column === cid),
+    getColumnById: (state) => (id: string) => {
+      return state.columns.find(c => c._id === id)
+    },
+    getPostsByCid: (state) => (cid: string) => {
+      return state.posts.filter(post => post.column === cid)
+    }
   },
   actions: {
     login() {
@@ -59,19 +61,17 @@ export const useStore = defineStore('mainStore', {
       this.posts.push(newPost)
     },
     async fetchColumns() {
-      await axios.get(`/columns?currentPage=${currentPage}&pageSize=${pageSize}`).then(resp => (this.columns.push(...resp.data.data.list)) )
-      console.log(this.columns)
-    },
-    fetchColumn() {
-      axios.get(`/columns/{id}`).then(resp => {
-        this.columns = [resp.data]
-        console.log(this.columns)
+      await axios.get('/columns').then(resp => {
+        return this.columns.push(...resp.data.data.list)
       })
     },
-    fetchPosts() {
-      axios.get(`/columns/{id}/posts`).then(resp => {
-        this.posts.push(...resp.data.data.list)
-      })
+    fetchColumn(cid: string) {
+      axios.get(`/columns/${cid}`).then(resp => (this.columns = [resp.data.data])
+      )
+    },
+    fetchPosts(cid: string) {
+      axios.get(`/columns/${cid}/posts`).then(resp => (this.posts = resp.data.data.list)
+      )
     }
   },
 })

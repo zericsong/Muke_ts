@@ -32,7 +32,6 @@ export default defineComponent ({
     onMounted(() => {
       store.fetchColumn(currentId)
       store.fetchPosts(currentId)
-      console.log(route.params.id)
     })
     const column = computed(() => store.getColumnById(currentId))
     const list = computed(() => store.getPostsByCid(currentId))

@@ -7,11 +7,11 @@ import axios from 'axios'
 
 
 // 替换 baseURL
-// axios.defaults.baseURL = 'http://apis.imooc.com/api'
-axios.defaults.baseURL = 'http://api.vikingship.xyz/api/'
+axios.defaults.baseURL = 'http://apis.imooc.com/api'
+// axios.defaults.baseURL = 'http://api.vikingship.xyz/api/'
 
 // 下面的 icode 值是从慕课网获取的 token 值，可以在课程右侧的项目接口校验码找到
-/* axios.interceptors.request.use(config => {
+axios.interceptors.request.use(config => {
   // get 请求，添加到 url 中
   config.params = { ...config.params, icode: '12D65C19FAAAAD71' }
   // 其他请求，添加到 body 中
@@ -23,7 +23,7 @@ axios.defaults.baseURL = 'http://api.vikingship.xyz/api/'
     config.data = { ...config.data, icode: '12D65C19FAAAAD71' }
   }
   return config
-}) */
+})
 
 
 const app = createApp(App)
