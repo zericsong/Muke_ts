@@ -3,8 +3,10 @@ import App from './App.vue'
 //import { createPinia } from 'pinia'
 import router from './router/index'
 import pinia from '@/store'
+import { useStore } from './store/index';
 import axios from 'axios'
 
+const store = useStore()
 
 // 替换 baseURL
 axios.defaults.baseURL = 'http://apis.imooc.com/api'
@@ -22,6 +24,14 @@ axios.interceptors.request.use(config => {
   // 普通的 body 对象，添加到 data 中
     config.data = { ...config.data, icode: '12D65C19FAAAAD71' }
   }
+  store.setLoading(true)
+  return config
+})
+
+axios.interceptors.response.use(config => {
+  setTimeout(() => {
+      store.setLoading(false)
+    }, 2000)
   return config
 })
 

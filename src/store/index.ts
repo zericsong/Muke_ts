@@ -31,6 +31,7 @@ export interface PostProps {
   column: string;
 }
 export interface GlobalDataProps {
+  loading: boolean;
   columns: ColumnProps[];
   posts: PostProps[];
   user: UserProps;
@@ -40,6 +41,7 @@ export const useStore = defineStore('mainStore', {
   // arrow function recommended for full type inference
   state: () : GlobalDataProps => ({   //()立即返回函数，省略了return{...}
     // all these properties will have their type inferred automatically
+    loading: false,
     columns: [],
     posts: [],
     //user: { isLogin: false },
@@ -72,6 +74,9 @@ export const useStore = defineStore('mainStore', {
     fetchPosts(cid: string) {
       axios.get(`/columns/${cid}/posts`).then(resp => (this.posts = resp.data.data.list)
       )
+    },
+    setLoading(status: boolean) {
+      this.loading = status
     }
   },
 })
