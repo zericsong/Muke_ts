@@ -5,6 +5,7 @@
       class="form-control"
       :class="{'is-invalid': inputRef.error}"
       @blur="validateInput"
+      @input="updateValue"
       v-model="inputRef.val"
       v-bind="$attrs"
     >
@@ -13,6 +14,7 @@
       class="form-control"
       :class="{'is-invalid': inputRef.error}"
       @blur="validateInput"
+      @input="updateValue"
       v-model="inputRef.val"
       v-bind="$attrs"
     >
@@ -27,9 +29,8 @@ import { emitter } from './ValidateForm.vue'
 const emailReg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
 interface RuleProp {
-  type: 'required' | 'email' | 'custom';
+  type: 'required' | 'email';
   message: string;
-  validator?: () => boolean;
 }
 export type RulesProp = RuleProp[]
 export type TagType = 'input' | 'textarea'
@@ -46,15 +47,17 @@ export default defineComponent({
   inheritAttrs: false,
   setup(props, context) {
     const inputRef = reactive({
-      val: computed({
-        get: () => props.modelValue || '',
-        set: val => {
-          context.emit('update:modelValue', val)
-        }
-      }),
+      val: props.modelValue || '',
       error: false,
       message: ''
     })
+    const updateValue = () => {
+      return (e: KeyboardEvent) => {
+        const targetValue = (e.target as HTMLInputElement).value
+        inputRef.val = targetValue
+        context.emit('update:modelValue', targetValue)
+      }
+    }
     const validateInput = () => {
       if (props.rules) {
         const allPassed = props.rules.every(rule => {
@@ -66,9 +69,6 @@ export default defineComponent({
               break
             case 'email':
               passed = emailReg.test(inputRef.val)
-              break
-            case 'custom':
-              passed = rule.validator ? rule.validator() : true
               break
             default:
               break
@@ -85,7 +85,8 @@ export default defineComponent({
     })
     return {
       inputRef,
-      validateInput
+      validateInput,
+      updateValue
     }
   }
 })

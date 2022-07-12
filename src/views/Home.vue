@@ -20,7 +20,6 @@
 import { defineComponent, computed, onMounted } from 'vue'
 import ColumnList from '../components/ColumnList.vue'
 import { useStore } from '@/store'
-import { computed } from '@vue/reactivity'
 
 
 export default defineComponent({

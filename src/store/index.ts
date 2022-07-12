@@ -31,6 +31,7 @@ export interface PostProps {
   column: string;
 }
 export interface GlobalDataProps {
+  token: string,
   loading: boolean;
   columns: ColumnProps[];
   posts: PostProps[];
@@ -41,11 +42,11 @@ export const useStore = defineStore('mainStore', {
   // arrow function recommended for full type inference
   state: () : GlobalDataProps => ({   //()立即返回函数，省略了return{...}
     // all these properties will have their type inferred automatically
+    token: '',
     loading: false,
     columns: [],
     posts: [],
-    //user: { isLogin: false },
-    user: { isLogin: true, name: 'viking', columnId: 1 }
+    user: { isLogin: false, name: 'viking', columnId: 1 }
   }),
   getters: {
     getColumnById: (state) => (id: string) => {
@@ -56,15 +57,15 @@ export const useStore = defineStore('mainStore', {
     }
   },
   actions: {
-    login() {
+    /* login() {
       this.user = { isLogin: true , name: "viking"}
-    },
+    }, */
     createPost(newPost: PostProps) {
       this.posts.push(newPost)
     },
     async fetchColumns() {
       await axios.get('/columns').then(resp => {
-        return this.columns.push(...resp.data.data.list)
+        this.columns.push(...resp.data.data.list)
       })
     },
     fetchColumn(cid: string) {
@@ -77,6 +78,12 @@ export const useStore = defineStore('mainStore', {
     },
     setLoading(status: boolean) {
       this.loading = status
+    },
+    async login(payload:any) {
+      await axios.post('/user/login',payload).then(resp => {
+        console.log(resp)
+        this.token = resp.data.data.token
+      })
     }
   },
 })
