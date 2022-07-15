@@ -43,7 +43,7 @@ export const useStore = defineStore('mainStore', {
   // arrow function recommended for full type inference
   state: () : GlobalDataProps => ({   //()立即返回函数，省略了return{...}
     // all these properties will have their type inferred automatically
-    token: '',
+    token: localStorage.getItem('token') || '',
     loading: false,
     columns: [],
     posts: [],
@@ -83,6 +83,7 @@ export const useStore = defineStore('mainStore', {
     async login(payload:any) {
       await axios.post('/user/login',payload).then(resp => {
         this.token = resp.data.data.token
+        localStorage.setItem('token', this.token)
         axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
       })
     },
