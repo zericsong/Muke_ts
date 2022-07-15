@@ -26,13 +26,19 @@ axios.interceptors.request.use(config => {
   }
   store.setLoading(true)
   return config
-})
+}) 
 
 axios.interceptors.response.use(config => {
   setTimeout(() => {
-      store.setLoading(false)
-    }, 1000)
+    store.setLoading(false)
+  }, 1000)
   return config
+},e => {
+  console.log(e.response)
+  const { error } = e.response.data
+  store.setError({ status:true, message:error })
+  store.setLoading(false)
+  return Promise.reject(e.response.data)
 })
 
 

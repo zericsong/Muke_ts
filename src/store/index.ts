@@ -31,8 +31,13 @@ export interface PostProps {
   createdAt: string;
   column: string;
 }
+export interface GlobalErrorProps {
+  status: boolean;
+  message?: string;
+}
 export interface GlobalDataProps {
-  token: string,
+  token: string;
+  error: GlobalErrorProps;
   loading: boolean;
   columns: ColumnProps[];
   posts: PostProps[];
@@ -44,6 +49,7 @@ export const useStore = defineStore('mainStore', {
   state: () : GlobalDataProps => ({   //()立即返回函数，省略了return{...}
     // all these properties will have their type inferred automatically
     token: localStorage.getItem('token') || '',
+    error: { status:false },
     loading: false,
     columns: [],
     posts: [],
@@ -80,6 +86,9 @@ export const useStore = defineStore('mainStore', {
     setLoading(status: boolean) {
       this.loading = status
     },
+    setError(e:GlobalErrorProps){
+      this.error = e
+    },
     async login(payload:any) {
       await axios.post('/user/login',payload).then(resp => {
         this.token = resp.data.data.token
@@ -88,7 +97,7 @@ export const useStore = defineStore('mainStore', {
       })
     },
     fetchCurrentUser(){
-      axios.get('/user/current').then(resp => (this.user = {isLogin: true, ...resp.data.data}))
+      axios.get('/user/current').then(resp => (this.user = {isLogin: true, ...resp.data.data})).catch(e=>console.log(e))
     },
     loginAndFetch(loginData:any){
       this.login(loginData).then(() => {
