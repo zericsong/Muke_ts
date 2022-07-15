@@ -55,10 +55,7 @@ export default defineComponent({
           email: emailVal.value,
           password: passwordVal.value
         }
-        console.log(emailVal.value)
-        console.log(passwordVal.value)
-        store.login(payload)
-        console.log(store.token)
+        store.loginAndFetch(payload)
         router.push('/')
       }
     }

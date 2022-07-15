@@ -4,11 +4,12 @@ import axios from 'axios';
 const pinia = createPinia();
 export default pinia;
 
-interface UserProps {
+export interface UserProps {
   isLogin: boolean;
-  name?: string;
-  id?: number;
-  columnId?: number;
+  nickName?: string;
+  _id?: string;
+  column?: number;
+  email?: string;
 }
 interface ImageProps {
   _id?: string;
@@ -46,7 +47,7 @@ export const useStore = defineStore('mainStore', {
     loading: false,
     columns: [],
     posts: [],
-    user: { isLogin: false, name: 'viking', columnId: 1 }
+    user: { isLogin: false }
   }),
   getters: {
     getColumnById: (state) => (id: string) => {
@@ -81,8 +82,16 @@ export const useStore = defineStore('mainStore', {
     },
     async login(payload:any) {
       await axios.post('/user/login',payload).then(resp => {
-        console.log(resp)
         this.token = resp.data.data.token
+        axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
+      })
+    },
+    fetchCurrentUser(){
+      axios.get('/user/current').then(resp => (this.user = {isLogin: true, ...resp.data.data}))
+    },
+    loginAndFetch(loginData:any){
+      this.login(loginData).then(() => {
+        this.fetchCurrentUser()
       })
     }
   },
